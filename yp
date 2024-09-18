@@ -36,7 +36,7 @@ app.get('/todos/', async (request, response) => {
   //to handle priority and status
   if (priority && status) {
     if (priority_values.includes(priority) && status_values.includes(status)) {
-      getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%' AND priority='${priority}' AND status='${status}';`
+      getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%' AND priority='${priority}' AND status='${status}';`
     } else if (priority_values.includes(priority) === false) {
       response.status(400)
       response.send('Invalid Todo Priority')
@@ -48,7 +48,7 @@ app.get('/todos/', async (request, response) => {
   //to handle category and status
   else if (category && status) {
     if (category_values.includes(category) && status_values.includes(status)) {
-      getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%' AND category='${category}' AND status='${status}';`
+      getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%' AND category='${category}' AND status='${status}';`
     } else if (category_values.includes(category) === false) {
       response.status(400)
       response.send('Invalid Todo Category')
@@ -63,7 +63,7 @@ app.get('/todos/', async (request, response) => {
       priority_values.includes(priority) &&
       category_values.includes(category)
     ) {
-      getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%' AND priority='${priority}' AND category='${category}';`
+      getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%' AND priority='${priority}' AND category='${category}';`
     } else if (priority_values.includes(priority) === false) {
       response.status(400)
       response.send('Invalid Todo Priority')
@@ -73,14 +73,14 @@ app.get('/todos/', async (request, response) => {
     }
   } else if (category) {
     if (category_values.includes(category)) {
-      getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%' AND category='${category}';`
+      getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%' AND category='${category}';`
     } else {
       response.status(400)
       response.send('Invalid Todo Category')
     }
   } else if (priority) {
     if (priority_values.includes(priority)) {
-      getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%' AND priority='${priority}';`
+      getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%' AND priority='${priority}';`
     } else {
       response.status(400)
       response.send('Invalid Todo Priority')
@@ -88,13 +88,13 @@ app.get('/todos/', async (request, response) => {
     category_values.includes(category)
   } else if (status) {
     if (status_values.includes(status)) {
-      getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%' AND status='${status}';`
+      getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%' AND status='${status}';`
     } else {
       response.status(400)
       response.send('Invalid Todo Status')
     }
   } else {
-    getQuery = `SELECT * FROM todo WHERE todo LIKE '%${search_q}%';`
+    getQuery = `SELECT id,todo,priority,status,category,due_date as dueDate FROM todo WHERE todo LIKE '%${search_q}%';`
   }
   try {
     const data = await db.all(getQuery)
